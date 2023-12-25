@@ -1,0 +1,124 @@
+----------------------------------
+if( a == 0x32 ) y = 0; else y = 1;
+----------------------------------
+	mov al, 31h
+	
+	sub al, 32h
+	jnz isfalse
+
+	mov	bl, 0
+	jmp close
+
+isfalse:
+	mov bl, 1
+
+close:
+	INVOKE ExitProcess, bl
+-----------------------------------------
+if( a == 0x32 ) y = false; else y = true;
+-----------------------------------------
+    mov al, 31h
+    sub al, 32h
+    mov bl, 0
+    or bl, al
+
+	INVOKE ExitProcess, bl
+---------------------------------
+for( int i=0; i!=5; i++ ) y += i;
+---------------------------------
+    mov ebx, 0
+    mov eax, 0
+
+_loop:
+    sub eax, 5
+    jz _break
+
+    add eax, 5
+    add ebx, eax
+    add eax, 1
+    jmp _loop
+
+_break:
+    INVOKE ExitProcess, ebx
+---------------------
+while( y!=5 ) y += 1;
+---------------------
+ mov eax, 0
+
+_loop:
+    sub eax, 5
+    jz _break
+    
+    add eax, 5
+    add eax, 1
+    jmp _loop
+
+_break:
+    add eax, 5;
+
+    INVOKE ExitProcess, eax
+---------------------
+3 * 6
+---------------------
+    mov ax, 3
+    mov bl, 6 
+    mov dx, 0
+
+warunek:
+    test bl, 1
+    jz petla
+    add dx, ax
+
+petla:
+    shl ax, 1
+    shr bl, 1
+    jnz warunek
+    
+    INVOKE ExitProcess, dx
+---------------------------------
+if( a < 0x05 ) y = 0; else y = 1;
+---------------------------------
+    mov bl, 0
+    mov al, 05h
+
+    sub al, 05h
+    jc prawda
+    mov bl, 1
+prawda:
+    
+    INVOKE ExitProcess, bl
+---------------------------------
+if( a > 0x05 ) y = 0; else y = 1;
+---------------------------------
+    mov al, 5
+    sub al, 6
+    jnc prawda
+    mov bl, 1
+
+prawda:    
+    INVOKE ExitProcess, bl
+---------------------------------
+a * 20 with ADD instruction
+---------------------------------
+    mov ax, 15 ; <- a
+    mov bx, ax
+
+    shl bx, 4
+    shl ax, 2
+    add bx, ax
+---------------------------------
+a * 20 with SUB instruction
+---------------------------------
+    mov ax, 15
+    mov bx, ax
+    mov dx, ax
+
+    shl ax, 5 ; 2^5 = 32
+    shl bx, 3 ; 2^3 = 8
+    shl dx, 2 ; 2^2 = 4
+
+    sub ax, bx ; 32 - 8 = 24
+    sub ax, dx ; 24 - 4 = 20
+---------------------------------
+for( int i=5; i!=0; i-- ) y -= i;
+---------------------------------
