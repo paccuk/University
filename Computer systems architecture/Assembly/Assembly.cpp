@@ -1,4 +1,4 @@
-﻿#include <iostream> 
+﻿#include <iostream>
 using namespace std;
 
 void mul_20()
@@ -116,11 +116,11 @@ void test()
 	int b;
 
 	__asm
-	{
+		{
 		mov eax, 0
 		mov al, a
 		mov b, eax
-	}
+		}
 	printf("%d", b);
 }
 
@@ -143,14 +143,16 @@ void mul_by_float()
 
 void zad1()
 {
-	typedef union {
+	typedef union
+	{
 		unsigned char BYTE;
-		struct {
+		struct
+		{
 			unsigned char a : 3;
 			unsigned char b : 2;
 			unsigned char c : 3;
-		}bits;
-	}un_X;
+		} bits;
+	} un_X;
 	un_X x;
 	// 000.1 0.101
 	//| c | b | a |
@@ -159,7 +161,8 @@ void zad1()
 	x.bits.c = 0x00;
 	printf("byte: %x\n", x.BYTE); // 0001 0101 (0x15)
 
-	while (x.bits.b > 1) {
+	while (x.bits.b > 1)
+	{
 		printf("c: %d\tb: %d\n", x.bits.c, x.bits.b);
 		x.bits.c = 3 * x.bits.b++;
 		printf("c: %d\tb: %d\n\n", x.bits.c, x.bits.b);
@@ -211,24 +214,25 @@ void zad1()
 	printf("c: %d\tb: %d\n\n", x.bits.c, x.bits.b);
 	printf("byte: %x\n", x.BYTE);
 
+	// c: 0    b: 2
+	// c: 6    b: 3
 
-
-	// c: 0    b: 2 
-	// c: 6    b: 3 
-
-	// c: 6    b: 3 
+	// c: 6    b: 3
 	// c: 1    b: 0 - wynik
 }
 
-void zad14() {
-	typedef union {
+void zad14()
+{
+	typedef union
+	{
 		unsigned char BYTE;
-		struct {
+		struct
+		{
 			unsigned char a : 1;
 			unsigned char b : 3;
 			unsigned char c : 4;
-		}bits;
-	}un_X;
+		} bits;
+	} un_X;
 
 	un_X x;
 	// 1.101 1001
@@ -240,7 +244,8 @@ void zad14() {
 	printf("0x%x\n", x.BYTE);
 
 	x.BYTE &= 0x0F;
-	if (x.BYTE & 0x01) {
+	if (x.BYTE & 0x01)
+	{
 		bpom = x.BYTE & 0x0E;
 		bpom <<= 3;
 		x.BYTE |= bpom;
@@ -266,10 +271,10 @@ void zad14() {
 	}
 
 	printf("0x%x", x.BYTE);
-
 }
 
-void lower_bigger() {
+void lower_bigger()
+{
 
 	char a, b;
 	a = 0x04;
@@ -286,7 +291,7 @@ void lower_bigger() {
 	//	mov b, 1
 	//_end:
 	//}
-	//printf("%d", b);
+	// printf("%d", b);
 
 	// 0x05 = 0000 0101
 	// 0xFA = 1111 1010
@@ -335,7 +340,8 @@ void for_with_minus()
 	printf("%d", a);
 }
 
-void lower_for() {
+void lower_for()
+{
 	// for (int i = 0; i < 5; i++) += y;
 
 	unsigned int a, y;
@@ -361,7 +367,8 @@ void lower_for() {
 	printf("%d", y);
 }
 
-void bigger_equals_for() {
+void bigger_equals_for()
+{
 	// for (int i = 5; i >= 5; i--) -= y;
 
 	int a, y;
@@ -393,23 +400,24 @@ void bigger_equals_for() {
 
 void zad13()
 {
-	typedef union {
+	typedef union
+	{
 		unsigned char BYTE;
-		struct {
+		struct
+		{
 			unsigned char a : 2;
 			unsigned char b : 3;
 			unsigned char c : 3;
-		}bits;
-	}un_X;
+		} bits;
+	} un_X;
 
 	un_X x;
 	// 001 010 00
-	//	c	b   a	
+	//	c	b   a
 	x.bits.a = 0;
 	x.bits.b = 2;
 	x.bits.c = 1;
 	printf("BYTE: %d\na: %d\tb: %d\tc: %d\n\n", x.BYTE, x.bits.a, x.bits.b, x.bits.c);
-
 
 	_asm {
 		mov al, x.bits
@@ -432,6 +440,35 @@ void zad13()
 	_else:
 	}
 	printf("BYTE: %d\na: %d\tb: %d\tc: %d", x.BYTE, x.bits.a, x.bits.b, x.bits.c);
+}
+
+void kolok()
+{
+	typedef union
+	{
+		unsigned char BYTE;
+		struct
+		{
+			unsigned char a : 3;
+			unsigned char b : 5;
+		} bits;
+	} un_X;
+
+	un_X x;
+
+	x.bits.a = x.bits.b * 0.75;
+
+	_asm {
+		mov al, x.BYTE
+		mov bl, al
+		
+
+		; Shift right by 2 to divide by 4 (x.bits.b / 4)
+    	shr al, 2
+
+    	; Add x.bits.b / 4 to itself (2 * x.bits.b / 4)
+    	add al, al
+	}
 }
 
 int main()

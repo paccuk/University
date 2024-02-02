@@ -81,13 +81,9 @@ int main(int argc, char *argv[])
     char first_half[half + 1];
     char second_half[n - half + 1];
 
-    // printf("%d %d %d\n", n, half + 1, n - half + 1);
-
     strncpy(first_half, argv[1], half);
     first_half[half] = '\0';
     strcpy(second_half, argv[1] + half);
-
-    // printf("%s %s\n", first_half, second_half);
 
     pid_t child_p1 = fork();
     run_proccess(child_p1, first_half, argv, 1);
